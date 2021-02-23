@@ -34,7 +34,6 @@ class InternetSpeedTwitterBot:
                                                       '3]/div/div[3]/div/div/div[2]/div[1]/div[2]/div/div[2]/span').text
         self.up = self.driver.find_element_by_xpath('//*[@id="container"]/div/div[3]/div/div/div/div[2]/div[3]/div['
                                                     '3]/div/div[3]/div/div/div[2]/div[1]/div[3]/div/div[2]/span').text
-        print(self.down, self.up)
 
     def tweet_at_provider(self):
         self.driver.get('https://twitter.com/login/')
