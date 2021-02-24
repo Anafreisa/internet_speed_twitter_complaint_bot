@@ -7,6 +7,7 @@ PROMISED_UP = YOUR INTERNET UPLOAD PLAN
 CHROME_DRIVER_PATH = "C:\Development\chromedriver.exe"
 TWITTER_LOGIN = YOUR TWITTER LOGIN
 TWITTER_PASSWORD = YOUR TWITTER PASSWORD
+INTERNET_PROVIDER = YOUR INTERNET PROVIDER TWITTER ACCOUNT
 
 
 class InternetSpeedTwitterBot:
@@ -35,36 +36,40 @@ class InternetSpeedTwitterBot:
         self.up = self.driver.find_element_by_xpath('//*[@id="container"]/div/div[3]/div/div/div/div[2]/div[3]/div['
                                                     '3]/div/div[3]/div/div/div[2]/div[1]/div[3]/div/div[2]/span').text
 
-    def tweet_at_provider(self):
-        self.driver.get('https://twitter.com/login/')
+        def tweet_at_provider(self):
+        if float(self.down) < PROMISED_DOWN or float(self.up) < PROMISED_UP:
+            self.driver.get('https://twitter.com/login/')
 
-        time.sleep(2)
-        name_input = self.driver.find_element_by_xpath('//*[@id="react-root"]/div/div/div[2]/main/div/div/div['
-                                                       '2]/form/div/div[1]/label/div/div[2]/div/input')
-        name_input.send_keys(TWITTER_LOGIN)
+            time.sleep(2)
+            name_input = self.driver.find_element_by_xpath('//*[@id="react-root"]/div/div/div[2]/main/div/div/div['
+                                                           '2]/form/div/div[1]/label/div/div[2]/div/input')
+            name_input.send_keys(TWITTER_LOGIN)
 
-        password_input = self.driver.find_element_by_xpath('//*[@id="react-root"]/div/div/div[2]/main/div/div/div['
-                                                           '2]/form/div/div[2]/label/div/div[2]/div/input')
-        password_input.send_keys(TWITTER_PASSWORD)
-        time.sleep(2)
-        password_input.send_keys(Keys.ENTER)
+            password_input = self.driver.find_element_by_xpath('//*[@id="react-root"]/div/div/div[2]/main/div/div/div['
+                                                               '2]/form/div/div[2]/label/div/div[2]/div/input')
+            password_input.send_keys(TWITTER_PASSWORD)
+            time.sleep(2)
+            password_input.send_keys(Keys.ENTER)
 
-        time.sleep(4)
-        if PROMISED_DOWN < float(self.down) or PROMISED_UP < float(self.up):
-            tweet = self.driver.find_element_by_xpath('//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div['
-                                                      '1]/div/div[2]/div/div[2]/div[1]/div/div/div/div[2]/div['
-                                                      '1]/div/div/div/div/div/div/div/div/div/div[1]/div/div/div/div['
-                                                      '2]/div/div/div/div/span')
+            time.sleep(4)
 
-            tweet.send_keys(f"Oi YOUR INTERNET PROVIDER, por que a velocidade da minha internet está em {self.down}/{self.up} "
-                            f"se meu pacote é de 240 download/20 upload?")
+            tweet = self.driver.find_element_by_xpath('//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div[1]/'
+                                                      'div/div[2]/div/div[2]/div[1]/div/div/div/div[2]/div[1]/div/div/'
+                                                      'div/div/div/div/div/div/div/div[1]/div/div/div/div[2]/div/div/'
+                                                      'div/div/span')
+
+            tweet.send_keys(f"Oi {INTERNET_PROVIDER}, por que a velocidade da minha internet está em {self.down}/"
+                            f" {self.up} se meu pacote é de 240 download/20 upload?")
 
             time.sleep(2)
             tweet_btn = self.driver.find_element_by_xpath('//*[@id="react-root"]/div/div/div[2]/main/div/div/div/div['
-                                                          '1]/div/div[2]/div/div[2]/div[1]/div/div/div/div[2]/div['
-                                                          '4]/div/div/div[2]/div[3]/div/span/span')
+                                                              '1]/div/div[2]/div/div[2]/div[1]/div/div/div/div[2]/div['
+                                                              '4]/div/div/div[2]/div[3]/div/span/span')
             tweet_btn.click()
             time.sleep(2)
+            self.driver.quit()
+
+        else:
             self.driver.quit()
 
 bot = InternetSpeedTwitterBot(CHROME_DRIVER_PATH)
